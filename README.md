@@ -1,6 +1,3 @@
-images/wireframe.jpg
-
-![alt text](http://images/wireframe.jpg)
 # Spawn To-Do Today
 Checklist which respawn with daily duties every day, and date specific task as well on their dates. 
 
@@ -28,3 +25,7 @@ How to respawn daily entries
 
 ### Project Tracker
 https://trello.com/invite/b/ZvE5BJTI/715b89d03835a6ca02fee83df4fab00b/liftoff-project-board
+
+### Wire Frame
+![wireframe](images/wireframe.jpg)
+
