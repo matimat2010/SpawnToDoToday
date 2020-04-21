@@ -27,6 +27,6 @@ How to respawn daily entries
 https://trello.com/invite/b/ZvE5BJTI/715b89d03835a6ca02fee83df4fab00b/liftoff-project-board
 
 ### Wire Frame
-![wireframe](images/wireframe.jpg)
+![wireframe](img/wireframe.jpg)
 
 npm remove @vue/cli-plugin-eslint
