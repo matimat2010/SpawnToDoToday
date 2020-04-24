@@ -1,14 +1,16 @@
-<!DOCTYPE html>
+<!DOCTYPE html5>
 <html>
 <head>
+<meta charset="UTF-8">
 <title>Log In</title>
-<!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
-<script src="script.js"></script>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web">
+<link rel="stylesheet" href="css/font-awesome.css">
+<link rel="stylesheet" href="css/style.css">
 
 </head>
 <body>
+    <div id = "new">
     <h1>Form</h1>
     <div id="formContainer">
     <div id="header"></div>    
@@ -17,7 +19,13 @@
     <button onclick="signUp()" id="signUp">Sign Up</button>
     <button onclick="signIn()" id="signIn">Sign In</button>
     <button onclick="signOut()" id="signOut">Sign Out</button>
-    </div>    
+    </div> 
     
-<p></p>
-</body></html>
+    </div>   
+    
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
