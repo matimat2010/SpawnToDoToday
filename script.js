@@ -10,17 +10,9 @@ var firebaseConfig =
     appId: "1:143584174542:web:010b1f589b66c282e1cb9f"
 };
 
-
   // Initialize Firebase Authentication and Database
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
-  const db = firebase.firestore();
-  
-//   let account = {
-//     name: email.value,
-//     list: []
-// }
-//   console.log(db.collection('users').doc(account.name))
 
 function signUp(){
 
@@ -29,19 +21,6 @@ function signUp(){
 
     const promise = auth.createUserWithEmailAndPassword(email.value, password.value);
     promise.catch(e => alert(e.message));
-
-    let account= {
-        name: email.value,
-        list: []
-        }
-    
-    //Create Object with email as name and empty array list on sign up
-    db.collection('users').doc(email.value).set
-        ({ 
-        name: email.value,
-        list: []
-        });
-
     alert("Signed Up!")}
 
 function signIn(){
@@ -50,7 +29,6 @@ function signIn(){
     const promise = auth.signInWithEmailAndPassword(email.value, password.value);
     promise.catch(e => alert(e.message));
     }
-
 
 
 //Sign Out Button Function
@@ -74,8 +52,47 @@ function signOut(){
     }
 
 auth.onAuthStateChanged(function(user){
-  
+    
+const options = {weekday : "long", month:"short", day:"numeric"};
+const today = new Date();
+var email = user.email;
+var userDateKey = email+"date";
+var userDate = localStorage.getItem(userDateKey);
+
+// creating tommorows date
+const tomorrow = new Date(today)
+tomorrow.setDate(tomorrow.getDate() + 1).getDate
+// getting tommorows date number
+future = tomorrow.getDate();
+// getting today's date number
+present = today.getDate();
+
+// For first time users
+if (userDate == null) {userDate = present};
+//next line changes the local store date to the present for testing only - -
+// localStorage.setItem(userDateKey, present);
+
+//function triggered if stored date matches current date - changes stored current date to tommorow after the function runs can only be ran once a day
+if (userDate == present){
+    console.log("I'm a coding");
+    //This is where we uncross / change classes on list items
+
+    //---------------------------------------------------------------------
+    //comment out next line when testing (changing dates so code only runs once a day)
+   localStorage.setItem(userDateKey, future);
+   console.log(userDate);
+    //---------------------------------------------------------------------
+}
+console.log("future: " + future);
+console.log("present: " + present);
+console.log("userDate: " + userDate);
+console.log("userDateKey: " + userDateKey);
+console.log("email: " + email);
+console.log(localStorage.getItem(email));
+
+//------------------------------------------------------------------------------------------
     //HTML TO CREATE CHECKLIST
+    //Try Placing Variable outside - all variables that are constants
     n = "<div class= 'container' id='in'>" +
     "<div class='header'>" +
     "<div class ='clear'>" + 
@@ -97,22 +114,24 @@ auth.onAuthStateChanged(function(user){
     console.log("state change triggered"); 
 
     if(user){
-        var users = firebase.auth().currentUser.email;
+        // var email = firebase.auth().currentUser.email;
         //console.log(users);
         var email = user.email;
-
-
+        // var userDateKey = email+"date";
+        // var userDate = localStorage.getItem(userDateKey);
+        // localStorage.setItem(userDateKey, present);
+       
 //----------------------
-
-
-        alert("Active User " + users)
+        alert("Active User " + email)
 
         document.getElementById("new").innerHTML = n;
         
         //Selecting elements from to do list form
         const clear = document.querySelector(".clear");
         const dateElement = document.getElementById("date");
+       // Where item lives
         const list = document.getElementById("list");
+       //user input
         const input = document.getElementById("input");
 
         //adding classes
@@ -124,8 +143,8 @@ auth.onAuthStateChanged(function(user){
         id = 0;
 
         // get item from local storage
-        let data = localStorage.getItem(users);
-
+        let data = localStorage.getItem(email);
+       
         // check if data is not empty
         if(data){
             LIST = JSON.parse(data);
@@ -150,16 +169,15 @@ auth.onAuthStateChanged(function(user){
         });
 
         //show date
-        const options = {weekday : "long", month:"short", day:"numeric"};
-        const today = new Date();
+        
         dateElement.innerHTML = today.toLocaleDateString("en-US", options);
-
+             
         function addToDo(toDo, id, done, trash){
             if(trash){return};
 
             const DONE = done ? CHECK : UNCHECK;
             const LINE = done ? LINE_THROUGH : "";
-
+            //where list is built
             const item = `
                 <li class="item">
                 <i class="fa ${DONE} co" job="complete" id="${id}"></i>
@@ -190,7 +208,7 @@ auth.onAuthStateChanged(function(user){
                         trash : false
                      });
 
-            // add item from local storage
+            // add item to local storage
                     localStorage.setItem(email, JSON.stringify(LIST));
                     id++;
                 }
@@ -198,14 +216,23 @@ auth.onAuthStateChanged(function(user){
             }
         });
 
-        addToDo("Coffee", 1, false, true);
-
+        
         //complete toDo
         function completeToDo(element){
+            // if (today ==1){LIST[element.id].done = true;
+            // sam ++};
+
+            // LIST[element.id].done = false;
+            
+            //Checking the check box
             element.classList.toggle(CHECK);
+            //Unchecking the check box
             element.classList.toggle(UNCHECK);
+            //Crossing / Uncrossing the task
             element.parentNode.querySelector(".text").classList.toggle(LINE_THROUGH);
+            
             LIST[element.id].done = LIST[element.id].done ? false : true;
+            
         }
 
         // remove todo
@@ -228,10 +255,22 @@ auth.onAuthStateChanged(function(user){
                 localStorage.setItem(email, JSON.stringify(LIST));
             });
 
-
         
     } else {
             alert("No Active User");
         }
  
     });
+
+    //how to see all of local storage
+// var i;
+
+// console.log("local storage");
+// for (i = 0; i < localStorage.length; i++)   {
+//     console.log(localStorage.key(i) + "=[" + localStorage.getItem(localStorage.key(i)) + "]");
+// }
+
+// console.log("session storage");
+// for (i = 0; i < sessionStorage.length; i++) {
+//     console.log(sessionStorage.key(i) + "=[" + sessionStorage.getItem(sessionStorage.key(i)) + "]");
+// }
