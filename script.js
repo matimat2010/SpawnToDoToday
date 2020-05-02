@@ -51,47 +51,7 @@ function signOut(){
     alert('Signed Out');
     }
 
-auth.onAuthStateChanged(function(user){
-    
-const options = {weekday : "long", month:"short", day:"numeric"};
-const today = new Date();
-var email = user.email;
-var userDateKey = email+"date";
-var userDate = localStorage.getItem(userDateKey);
-
-// creating tommorows date
-const tomorrow = new Date(today)
-tomorrow.setDate(tomorrow.getDate() + 1).getDate
-// getting tommorows date number
-future = tomorrow.getDate();
-// getting today's date number
-present = today.getDate();
-
-// For first time users
-if (userDate == null) {userDate = present};
-//next line changes the local store date to the present for testing only - -
-// localStorage.setItem(userDateKey, present);
-
-//function triggered if stored date matches current date - changes stored current date to tommorow after the function runs can only be ran once a day
-if (userDate == present){
-    console.log("I'm a coding");
-    //This is where we uncross / change classes on list items
-
-    //---------------------------------------------------------------------
-    //comment out next line when testing (changing dates so code only runs once a day)
-   localStorage.setItem(userDateKey, future);
-   console.log(userDate);
-    //---------------------------------------------------------------------
-}
-console.log("future: " + future);
-console.log("present: " + present);
-console.log("userDate: " + userDate);
-console.log("userDateKey: " + userDateKey);
-console.log("email: " + email);
-console.log(localStorage.getItem(email));
-
-//------------------------------------------------------------------------------------------
-    //HTML TO CREATE CHECKLIST
+   //HTML TO CREATE CHECKLIST
     //Try Placing Variable outside - all variables that are constants
     n = "<div class= 'container' id='in'>" +
     "<div class='header'>" +
@@ -110,6 +70,25 @@ console.log(localStorage.getItem(email));
     "</div>"+
     "</div>"+
     "<button onclick='signOut()' id='signOut'>Sign Out</button>";
+
+
+auth.onAuthStateChanged(function(user){
+    
+const options = {weekday : "long", month:"short", day:"numeric"};
+const today = new Date();
+var email = user.email;
+var userDateKey = email+"date";
+var userDate = localStorage.getItem(userDateKey);
+
+// creating tommorows date
+const tomorrow = new Date(today)
+tomorrow.setDate(tomorrow.getDate() + 1).getDate
+// getting tommorows date number
+future = tomorrow.getDate();
+// getting today's date number
+present = today.getDate();
+//----------------------------------------------------------------------------------------
+ 
     
     console.log("state change triggered"); 
 
@@ -125,7 +104,20 @@ console.log(localStorage.getItem(email));
         alert("Active User " + email)
 
         document.getElementById("new").innerHTML = n;
+
+
+
+
+
         
+        
+
+
+
+
+
+
+
         //Selecting elements from to do list form
         const clear = document.querySelector(".clear");
         const dateElement = document.getElementById("date");
@@ -175,9 +167,55 @@ console.log(localStorage.getItem(email));
         function addToDo(toDo, id, done, trash){
             if(trash){return};
 
-            const DONE = done ? CHECK : UNCHECK;
-            const LINE = done ? LINE_THROUGH : "";
+          
             //where list is built
+
+            //_______________________________________________________________________________
+// For first time users
+if (userDate == null || userDate < present) {userDate = present};
+//--------------------------------------------------------------------------------------------------
+//next line changes the local store date to the present for testing only - -
+//localStorage.setItem(userDateKey, present);
+
+//function triggered if stored date matches current date - changes stored current date to tommorow after the function runs can only be ran once a day
+if (userDate == present){
+    console.log("I'm a coding");
+    //This is where we uncross / change classes on list items
+    DONE = UNCHECK;
+    LINE = "";
+
+    const item = `
+    <li class="item">
+    <i class="fa ${DONE} co" job="complete" id="${id}"></i>
+    <p class="text ${LINE}" >${toDo}</p>
+    <i class="fa fa-trash-o de" job="delete" id="${id}"></i> 
+    </li>
+`;
+
+const position = "beforeend";
+list.insertAdjacentHTML(position, item);
+
+
+
+
+    //---------------------------------------------------------------------
+    //comment out next line when testing (changing dates so code only runs once a day)
+   localStorage.setItem(userDateKey, future);
+
+    //---------------------------------------------------------------------
+}else{
+
+
+//--
+
+
+
+
+
+
+            DONE = done ? CHECK : UNCHECK;
+            LINE = done ? LINE_THROUGH : "";
+
             const item = `
                 <li class="item">
                 <i class="fa ${DONE} co" job="complete" id="${id}"></i>
@@ -187,8 +225,16 @@ console.log(localStorage.getItem(email));
             `;
 
             const position = "beforeend";
-            list.insertAdjacentHTML(position, item);
+            list.insertAdjacentHTML(position, item);}
+
         }
+        
+        console.log("future: " + future);
+        console.log("present: " + present);
+        console.log("userDate: " + userDate);
+        console.log("userDateKey: " + userDateKey);
+        console.log("email: " + email);
+        console.log(localStorage.getItem(email));
 
             // addToDo("test");
 
@@ -261,6 +307,21 @@ console.log(localStorage.getItem(email));
         }
  
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //how to see all of local storage
 // var i;
