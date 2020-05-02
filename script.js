@@ -17,7 +17,7 @@ out = "<div id = 'new'>" +
 "</div>" + 
 "</div>";  
 
-  //HTML TO CREATE CHECKLIST
+//HTML TO CREATE CHECKLIST
 var appPage = "<div class= 'container' id='in'>" +
 "<div class='header'>" +
 "<div class ='clear'>" + 
@@ -85,7 +85,7 @@ auth.onAuthStateChanged(function(user){
     future = tomorrow.getDate();
     // getting today's date number
     present = today.getDate();
-    //present = 2;
+    // present = 2;
  
     if(user){
         //var email = user.email;
@@ -184,12 +184,12 @@ auth.onAuthStateChanged(function(user){
                     list.insertAdjacentHTML(position, item);}
                 }
         
-        console.log("future: " + future);
-        console.log("present: " + present);
-        console.log("userDate: " + userDate);
-        console.log("userDateKey: " + userDateKey);
-        console.log("email: " + email);
-        console.log(LIST);
+    console.log("future: " + future);
+    console.log("present: " + present);
+    console.log("userDate: " + userDate);
+    console.log("userDateKey: " + userDateKey);
+    console.log("email: " + email);
+    console.log(LIST);
         
         //add an item to the todo list
         document.addEventListener("keyup", function(event){
