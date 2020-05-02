@@ -28,5 +28,3 @@ https://trello.com/invite/b/ZvE5BJTI/715b89d03835a6ca02fee83df4fab00b/liftoff-pr
 
 ### Wire Frame
 ![wireframe](img/wireframe.jpg)
-
-npm remove @vue/cli-plugin-eslint
