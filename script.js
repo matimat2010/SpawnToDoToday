@@ -1,5 +1,10 @@
 
-    //LOG IN SCREEN HTML
+//adding classes
+const CHECK = "fa-check-circle";
+const UNCHECK = "fa-circle-thin";
+const LINE_THROUGH = "lineThrough";
+
+//LOG IN SCREEN HTML
 out = "<div id = 'new'>" +
 "<h1>Form</h1>" +
 "<div id='formContainer'>" +
@@ -11,6 +16,25 @@ out = "<div id = 'new'>" +
 "<button onclick='signOut()' id='signOut'>Sign Out</button>" +
 "</div>" + 
 "</div>";  
+
+  //HTML TO CREATE CHECKLIST
+var appPage = "<div class= 'container' id='in'>" +
+"<div class='header'>" +
+"<div class ='clear'>" + 
+" <i class = 'fa fa-refresh'></i>"+ 
+"</div>" + 
+"<div id ='date'></div>"+
+"</div> "+
+"<div class ='content'>" +
+"<ul id='list'>" +
+"</ul>"+
+"</div>"+
+"<div class='add-to-do'>"+
+"<i class='fa fa-plus-circle'></i>"+
+"<input type='text' id='input' placeholder='Add a to-do'>"+
+"</div>"+
+"</div>"+
+"<button onclick='signOut()' id='signOut'>Sign Out</button>";
 
  // Your web app's Firebase configuration
 var firebaseConfig = 
@@ -47,49 +71,26 @@ function signOut(){
     alert('Signed Out');
     }
 
-   //HTML TO CREATE CHECKLIST
-    var appPage = "<div class= 'container' id='in'>" +
-    "<div class='header'>" +
-    "<div class ='clear'>" + 
-    " <i class = 'fa fa-refresh'></i>"+ 
-    "</div>" + 
-    "<div id ='date'></div>"+
-    "</div> "+
-    "<div class ='content'>" +
-    "<ul id='list'>" +
-    "</ul>"+
-    "</div>"+
-    "<div class='add-to-do'>"+
-    "<i class='fa fa-plus-circle'></i>"+
-    "<input type='text' id='input' placeholder='Add a to-do'>"+
-    "</div>"+
-    "</div>"+
-    "<button onclick='signOut()' id='signOut'>Sign Out</button>";
-
-
 auth.onAuthStateChanged(function(user){
     console.log("state change triggered");     
     const options = {weekday : "long", month:"short", day:"numeric"};
     const today = new Date();
-    var email = user.email;
-    var userDateKey = email+"date";
-    var userDate = localStorage.getItem(userDateKey);
+    const email = user.email;
+    const userDateKey = email+"date";
+    const userDate = localStorage.getItem(userDateKey);
 
-    // creating tommorows date
     const tomorrow = new Date(today)
     tomorrow.setDate(tomorrow.getDate() + 1).getDate
     // getting tommorows date number
     future = tomorrow.getDate();
     // getting today's date number
     present = today.getDate();
-    //testing present = 3;
-//----------------------------------------------------------------------------------------
+    //present = 2;
  
     if(user){
-        var email = user.email;
+        //var email = user.email;
         alert("Active User " + email)
         document.getElementById("new").innerHTML = appPage;
-
 
         //Selecting elements from to do list form
         const clear = document.querySelector(".clear");
@@ -98,11 +99,6 @@ auth.onAuthStateChanged(function(user){
         const list = document.getElementById("list");
        //user input
         const input = document.getElementById("input");
-
-        //adding classes
-        const CHECK = "fa-check-circle";
-        const UNCHECK = "fa-circle-thin";
-        const LINE_THROUGH = "lineThrough";
 
         let LIST = [], 
         id = 0;
@@ -134,15 +130,12 @@ auth.onAuthStateChanged(function(user){
         });
 
         //show date
-        
         dateElement.innerHTML = today.toLocaleDateString("en-US", options);
              
         function addToDo(toDo, id, done, trash){
             if(trash){return};
-
-//_______________________________________________________________________________
-             // For first time users
-             if (userDate == null || userDate < present) {userDate = present};
+             // Null for first time users
+                if (userDate == null || userDate < present) {userDate = present};
 //--------------------------------------------------------------------------------------------------
              //next line changes the local store date to the present for testing only - -
              //localStorage.setItem(userDateKey, present);
@@ -153,7 +146,6 @@ auth.onAuthStateChanged(function(user){
             //This is where we uncross / change classes on list items
             DONE = UNCHECK;
             LINE = "";
-
             const item = `
             <li class="item">
             <i class="fa ${DONE} co" job="complete" id="${id}"></i>
@@ -164,35 +156,33 @@ auth.onAuthStateChanged(function(user){
           
              const position = "beforeend";
             list.insertAdjacentHTML(position, item);
-
-            //localStorage.setItem(email, JSON.stringify(LIST));
-            // console.log(LIST);            
+          
 //---------------------------------------------------------------------
             //comment out next line when testing (changing dates so code only runs once a day)
             localStorage.setItem(userDateKey, future);
 //---------------------------------------------------------------------
-//LIST['done'] = 'false';
-var i;
-for (i = 0; i< LIST.length; i++){
-LIST[i].done = false;
-localStorage.setItem(email, JSON.stringify(LIST));
-}  
 
-            }else{
-            DONE = done ? CHECK : UNCHECK;
-            LINE = done ? LINE_THROUGH : "";
+                var i;
+                for (i = 0; i< LIST.length; i++){
+                    LIST[i].done = false;
+                    localStorage.setItem(email, JSON.stringify(LIST));
+                }  
 
-            const item = `
-                <li class="item">
-                <i class="fa ${DONE} co" job="complete" id="${id}"></i>
-                <p class="text ${LINE}" >${toDo}</p>
-                <i class="fa fa-trash-o de" job="delete" id="${id}"></i> 
-                </li>
-            `;
+                }else{
+                    DONE = done ? CHECK : UNCHECK;
+                    LINE = done ? LINE_THROUGH : "";
 
-            const position = "beforeend";
-            list.insertAdjacentHTML(position, item);}
-            }
+                    const item = `
+                    <li class="item">
+                    <i class="fa ${DONE} co" job="complete" id="${id}"></i>
+                    <p class="text ${LINE}" >${toDo}</p>
+                    <i class="fa fa-trash-o de" job="delete" id="${id}"></i> 
+                    </li>
+                    `;
+
+                    const position = "beforeend";
+                    list.insertAdjacentHTML(position, item);}
+                }
         
         console.log("future: " + future);
         console.log("present: " + present);
@@ -201,10 +191,6 @@ localStorage.setItem(email, JSON.stringify(LIST));
         console.log("email: " + email);
         console.log(LIST);
         
-
-        
-          
-
         //add an item to the todo list
         document.addEventListener("keyup", function(event){
             if(event.keyCode == 13){
@@ -213,23 +199,21 @@ localStorage.setItem(email, JSON.stringify(LIST));
                 //if the input is not empty
                 if(toDo){
                     addToDo(toDo, id, false, false);
-                //adding items to array
+                    //adding items to array
                     LIST.push({
                         name : toDo,
                         id : id,
                         done : false,
                         trash : false
                      });
-
-            // add item to local storage
+                    // add item to local storage
                     localStorage.setItem(email, JSON.stringify(LIST));
                     id++;
                 }
-                input.value="";
+            input.value="";
             }
         });
 
-        
         //complete toDo
         function completeToDo(element){
             //Checking the check box
@@ -240,7 +224,6 @@ localStorage.setItem(email, JSON.stringify(LIST));
             element.parentNode.querySelector(".text").classList.toggle(LINE_THROUGH);
             
             LIST[element.id].done = LIST[element.id].done ? false : true;
-            
         }
 
         // remove todo
@@ -262,44 +245,7 @@ localStorage.setItem(email, JSON.stringify(LIST));
                 // add item to local storage
                 localStorage.setItem(email, JSON.stringify(LIST));
             });
-
-        
-            } else {
+                } else {
             alert("No Active User");
         }
- 
-//-----------------
-
-
-//-----------------
-
-
     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //how to see all of local storage
-// var i;
-
-// console.log("local storage");
-// for (i = 0; i < localStorage.length; i++)   {
-//     console.log(localStorage.key(i) + "=[" + localStorage.getItem(localStorage.key(i)) + "]");
-// }
-
-// console.log("session storage");
-// for (i = 0; i < sessionStorage.length; i++) {
-//     console.log(sessionStorage.key(i) + "=[" + sessionStorage.getItem(sessionStorage.key(i)) + "]");
-// }
