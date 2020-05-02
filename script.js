@@ -1,5 +1,18 @@
 
-  // Your web app's Firebase configuration
+    //LOG IN SCREEN HTML
+out = "<div id = 'new'>" +
+"<h1>Form</h1>" +
+"<div id='formContainer'>" +
+"<div id='header'></div>"  +   
+"<input type='email' placeholder='email' id='email'/>" +
+"<input type='password' placeholder='password' id='password'/>" +
+"<button onclick='signUp()' id='signUp'>Sign Up</button>" +
+"<button onclick='signIn()' id='signIn'>Sign In</button>" +
+"<button onclick='signOut()' id='signOut'>Sign Out</button>" +
+"</div>" + 
+"</div>";  
+
+ // Your web app's Firebase configuration
 var firebaseConfig = 
 {   apiKey: "AIzaSyD07cjEozPOtbkK3njWix3V8NLHyozzKXI",
     authDomain: "respawn-fc46f.firebaseapp.com",
@@ -10,15 +23,13 @@ var firebaseConfig =
     appId: "1:143584174542:web:010b1f589b66c282e1cb9f"
 };
 
-  // Initialize Firebase Authentication and Database
+  // Initialize Firebase Authentication
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
 
 function signUp(){
-
     var email = document.getElementById("email");
     var password = document.getElementById("password");
-
     const promise = auth.createUserWithEmailAndPassword(email.value, password.value);
     promise.catch(e => alert(e.message));
     alert("Signed Up!")}
@@ -30,30 +41,14 @@ function signIn(){
     promise.catch(e => alert(e.message));
     }
 
-
-//Sign Out Button Function
 function signOut(){
-    //LOG IN SCREEN HTML
-    out = "<div id = 'new'>" +
-    "<h1>Form</h1>" +
-    "<div id='formContainer'>" +
-    "<div id='header'></div>"  +   
-    "<input type='email' placeholder='email' id='email'/>" +
-    "<input type='password' placeholder='password' id='password'/>" +
-    "<button onclick='signUp()' id='signUp'>Sign Up</button>" +
-    "<button onclick='signIn()' id='signIn'>Sign In</button>" +
-    "<button onclick='signOut()' id='signOut'>Sign Out</button>" +
-    "</div>" + 
-    "</div>";  
-
     document.getElementById("in").innerHTML = out;
     auth.signOut();
     alert('Signed Out');
     }
 
    //HTML TO CREATE CHECKLIST
-    //Try Placing Variable outside - all variables that are constants
-    n = "<div class= 'container' id='in'>" +
+    var appPage = "<div class= 'container' id='in'>" +
     "<div class='header'>" +
     "<div class ='clear'>" + 
     " <i class = 'fa fa-refresh'></i>"+ 
@@ -73,49 +68,27 @@ function signOut(){
 
 
 auth.onAuthStateChanged(function(user){
-    
-const options = {weekday : "long", month:"short", day:"numeric"};
-const today = new Date();
-var email = user.email;
-var userDateKey = email+"date";
-var userDate = localStorage.getItem(userDateKey);
+    console.log("state change triggered");     
+    const options = {weekday : "long", month:"short", day:"numeric"};
+    const today = new Date();
+    var email = user.email;
+    var userDateKey = email+"date";
+    var userDate = localStorage.getItem(userDateKey);
 
-// creating tommorows date
-const tomorrow = new Date(today)
-tomorrow.setDate(tomorrow.getDate() + 1).getDate
-// getting tommorows date number
-future = tomorrow.getDate();
-// getting today's date number
-present = today.getDate();
+    // creating tommorows date
+    const tomorrow = new Date(today)
+    tomorrow.setDate(tomorrow.getDate() + 1).getDate
+    // getting tommorows date number
+    future = tomorrow.getDate();
+    // getting today's date number
+    present = today.getDate();
+    //testing present = 3;
 //----------------------------------------------------------------------------------------
  
-    
-    console.log("state change triggered"); 
-
     if(user){
-        // var email = firebase.auth().currentUser.email;
-        //console.log(users);
         var email = user.email;
-        // var userDateKey = email+"date";
-        // var userDate = localStorage.getItem(userDateKey);
-        // localStorage.setItem(userDateKey, present);
-       
-//----------------------
         alert("Active User " + email)
-
-        document.getElementById("new").innerHTML = n;
-
-
-
-
-
-        
-        
-
-
-
-
-
+        document.getElementById("new").innerHTML = appPage;
 
 
         //Selecting elements from to do list form
@@ -167,52 +140,45 @@ present = today.getDate();
         function addToDo(toDo, id, done, trash){
             if(trash){return};
 
-          
-            //where list is built
-
-            //_______________________________________________________________________________
-// For first time users
-if (userDate == null || userDate < present) {userDate = present};
+//_______________________________________________________________________________
+             // For first time users
+             if (userDate == null || userDate < present) {userDate = present};
 //--------------------------------------------------------------------------------------------------
-//next line changes the local store date to the present for testing only - -
-//localStorage.setItem(userDateKey, present);
+             //next line changes the local store date to the present for testing only - -
+             //localStorage.setItem(userDateKey, present);
 
-//function triggered if stored date matches current date - changes stored current date to tommorow after the function runs can only be ran once a day
-if (userDate == present){
-    console.log("I'm a coding");
-    //This is where we uncross / change classes on list items
-    DONE = UNCHECK;
-    LINE = "";
+            //function triggered if stored date matches current date - changes stored current date to tommorow after the function runs can only be ran once a day
+            if (userDate == present){
+            console.log("I'm a coding");
+            //This is where we uncross / change classes on list items
+            DONE = UNCHECK;
+            LINE = "";
 
-    const item = `
-    <li class="item">
-    <i class="fa ${DONE} co" job="complete" id="${id}"></i>
-    <p class="text ${LINE}" >${toDo}</p>
-    <i class="fa fa-trash-o de" job="delete" id="${id}"></i> 
-    </li>
-`;
+            const item = `
+            <li class="item">
+            <i class="fa ${DONE} co" job="complete" id="${id}"></i>
+            <p class="text ${LINE}" >${toDo}</p>
+            <i class="fa fa-trash-o de" job="delete" id="${id}"></i> 
+            </li>
+             `;
+          
+             const position = "beforeend";
+            list.insertAdjacentHTML(position, item);
 
-const position = "beforeend";
-list.insertAdjacentHTML(position, item);
+            //localStorage.setItem(email, JSON.stringify(LIST));
+            // console.log(LIST);            
+//---------------------------------------------------------------------
+            //comment out next line when testing (changing dates so code only runs once a day)
+            localStorage.setItem(userDateKey, future);
+//---------------------------------------------------------------------
+//LIST['done'] = 'false';
+var i;
+for (i = 0; i< LIST.length; i++){
+LIST[i].done = false;
+localStorage.setItem(email, JSON.stringify(LIST));
+}  
 
-
-
-
-    //---------------------------------------------------------------------
-    //comment out next line when testing (changing dates so code only runs once a day)
-   localStorage.setItem(userDateKey, future);
-
-    //---------------------------------------------------------------------
-}else{
-
-
-//--
-
-
-
-
-
-
+            }else{
             DONE = done ? CHECK : UNCHECK;
             LINE = done ? LINE_THROUGH : "";
 
@@ -226,17 +192,18 @@ list.insertAdjacentHTML(position, item);
 
             const position = "beforeend";
             list.insertAdjacentHTML(position, item);}
-
-        }
+            }
         
         console.log("future: " + future);
         console.log("present: " + present);
         console.log("userDate: " + userDate);
         console.log("userDateKey: " + userDateKey);
         console.log("email: " + email);
-        console.log(localStorage.getItem(email));
+        console.log(LIST);
+        
 
-            // addToDo("test");
+        
+          
 
         //add an item to the todo list
         document.addEventListener("keyup", function(event){
@@ -265,11 +232,6 @@ list.insertAdjacentHTML(position, item);
         
         //complete toDo
         function completeToDo(element){
-            // if (today ==1){LIST[element.id].done = true;
-            // sam ++};
-
-            // LIST[element.id].done = false;
-            
             //Checking the check box
             element.classList.toggle(CHECK);
             //Unchecking the check box
@@ -297,15 +259,21 @@ list.insertAdjacentHTML(position, item);
                 }else if(elementJob == "delete"){
                         removeToDo(element);
                         }
-                // add item from local storage
+                // add item to local storage
                 localStorage.setItem(email, JSON.stringify(LIST));
             });
 
         
-    } else {
+            } else {
             alert("No Active User");
         }
  
+//-----------------
+
+
+//-----------------
+
+
     });
 
 
