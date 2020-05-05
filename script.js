@@ -77,7 +77,7 @@ auth.onAuthStateChanged(function(user){
     const today = new Date();
     const email = user.email;
     const userDateKey = email+"date";
-    const userDate = localStorage.getItem(userDateKey);
+    userDate = localStorage.getItem(userDateKey);
 
     const tomorrow = new Date(today)
     tomorrow.setDate(tomorrow.getDate() + 1).getDate
@@ -85,7 +85,7 @@ auth.onAuthStateChanged(function(user){
     future = tomorrow.getDate();
     // getting today's date number
     present = today.getDate();
-    // present = 2;
+    //present = 6;
  
     if(user){
         //var email = user.email;
