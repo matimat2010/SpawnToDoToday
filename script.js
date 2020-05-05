@@ -5,23 +5,34 @@ const UNCHECK = "fa-circle-thin";
 const LINE_THROUGH = "lineThrough";
 
 //LOG IN SCREEN HTML
-out = "<div id = 'new'>" +
-"<h1>Form</h1>" +
-"<div id='formContainer'>" +
-"<div id='header'></div>"  +   
-"<input type='email' placeholder='email' id='email'/>" +
-"<input type='password' placeholder='password' id='password'/>" +
+out = 
+"<div id = 'new'>" +
+"<div class= 'container' id='in'>" +
+"<div class='header'>" +
+// "<!-- <div class ='clear'>" + 
+// "<i class = 'fa fa-refresh'></i>" + 
+// "</div> -->" +
+"<div id ='date'>Have a great day!</div>" +
+"</div> " +
+"<div class ='content'>" +
+"<ul id='list' text-align='center'>" +
+"<li><input type='email' placeholder='email' id='email'/></li>" +
+"<li><input type='password' placeholder='password' id='password'/></li>" +
+"<li>" +
 "<button onclick='signUp()' id='signUp'>Sign Up</button>" +
 "<button onclick='signIn()' id='signIn'>Sign In</button>" +
 "<button onclick='signOut()' id='signOut'>Sign Out</button>" +
-"</div>" + 
-"</div>";  
+" </li>" +
+"</ul>" +
+"</div>" +
+"</div>" +
+"</div>";
 
 //HTML TO CREATE CHECKLIST
 var appPage = "<div class= 'container' id='in'>" +
 "<div class='header'>" +
 "<div class ='clear'>" + 
-" <i class = 'fa fa-refresh'></i>"+ 
+" <i class='fa fa-eject' aria-hidden='true'></i>"+ 
 "</div>" + 
 "<div id ='date'></div>"+
 "</div> "+
@@ -33,8 +44,8 @@ var appPage = "<div class= 'container' id='in'>" +
 "<i class='fa fa-plus-circle'></i>"+
 "<input type='text' id='input' placeholder='Add a to-do'>"+
 "</div>"+
-"</div>"+
-"<button onclick='signOut()' id='signOut'>Sign Out</button>";
+"</div>";
+
 
  // Your web app's Firebase configuration
 var firebaseConfig = 
@@ -123,10 +134,11 @@ auth.onAuthStateChanged(function(user){
             });
         }
 
-        //clear the local storage
+        //sign out by clicking the icon
         clear.addEventListener("click", function(){
-            localStorage.clear();
-            location.reload();
+            // localStorage.clear();
+            // location.reload();
+            signOut();
         });
 
         //show date
