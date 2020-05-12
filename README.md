@@ -11,7 +11,7 @@ Create a to-do event
 Delete a to-do event
 Update a to-do event
 Order a to-do event
-
+Sync with Google Calendars*
 
 ### Technologies
 Javascript
